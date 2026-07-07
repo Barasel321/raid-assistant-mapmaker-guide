@@ -28,18 +28,41 @@ See [Raid zombie — Visual variant](raid-zombie.md#visual-variant-raidvariant) 
 
 ## Asset paths
 
-Folder layout for item GeckoLib assets (namespace `raid-assistant`):
+All raid animated item **GeckoLib assets** for this mod live under the namespace `raid-assistant`. You cannot change that namespace in a resource pack and still have this item load those files.
+
+Folder layout inside your pack (or inside the mod jar for defaults):
 
 ```text
 assets/raid-assistant/
+  models/item/raid_animated_item.json
   geo/item/<stem>.geo.json
   textures/item/<stem>.png
   animations/item/<stem>.animation.json
 ```
 
 - Default stem: `raid_item` (bundled in the mod).
-- The **same** stem must be used for all three files for one look.
+- The **same** stem must be used for the three GeckoLib files (`geo`, `textures`, `animations`) for one look.
 - Invalid or missing `RaidVariant` values fall back to `raid_item`. If geo is missing for a custom stem, the client also falls back to `raid_item`.
+
+### Vanilla item model (`models/item/`)
+
+The mod ships one Minecraft item model file:
+
+```text
+assets/raid-assistant/models/item/raid_animated_item.json
+```
+
+It contains only:
+
+```json
+{
+  "parent": "builtin/entity"
+}
+```
+
+That tells the game to hand off rendering to GeckoLib instead of drawing a flat 2D item model. This path is tied to the **item id** (`raid_animated_item`), not to `<stem>` or `RaidVariant`.
+
+When you add a new visual variant, you only add the three GeckoLib files under `geo/item/`, `textures/item/`, and `animations/item/` — **not** extra files under `models/item/`. Leave the bundled model file alone unless you are deliberately replacing mod assets.
 
 ## Scoreboard objective
 

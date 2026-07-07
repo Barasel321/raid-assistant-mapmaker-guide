@@ -27,6 +27,7 @@
 | Default stem         | `raid_item`                                                            |
 | Scoreboard objective | `ra_item_anim` (dummy), holder = **player**                            |
 | Animation scope      | First person, main hand, local player only                             |
+| Item model path      | `assets/raid-assistant/models/item/raid_animated_item.json` (`builtin/entity`; one file for the item id, not per stem) |
 | Geo path             | `assets/raid-assistant/geo/item/<stem>.geo.json`                       |
 | Texture path         | `assets/raid-assistant/textures/item/<stem>.png`                       |
 | Animation path       | `assets/raid-assistant/animations/item/<stem>.animation.json`          |
