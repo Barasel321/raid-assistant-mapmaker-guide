@@ -4,6 +4,8 @@
 
 The **raid animated item** is a held item with GeckoLib 3D visuals. Its animation pose is driven by a **player** scoreboard objective. Animations play **only in first person** for the **local player** while the item is in the **main hand** — other players do not see them.
 
+First-person and third-person can use **different models**. Third-person stays **unanimated**; it loads a separate stem that defaults to `{firstPersonStem}_tp` (see [First-person vs third-person stems](#first-person-vs-third-person-stems)).
+
 ## Item id and giving
 
 Item id:
@@ -24,7 +26,19 @@ Optional visual variant (same rules as raid zombie `RaidVariant`):
 /give @s raid-assistant:raid_animated_item[minecraft:custom_data={RaidVariant:"my_gun"}]
 ```
 
-See [Raid zombie — Visual variant](raid-zombie.md#visual-variant-raidvariant) for stem rules.
+With an explicit third-person stem override:
+
+```mcfunction
+/give @s raid-assistant:raid_animated_item[minecraft:custom_data={RaidVariant:"my_gun",RaidVariantTP:"custom_tp_stem"}]
+```
+
+With a crossbow-style hold pose:
+
+```mcfunction
+/give @s raid-assistant:raid_animated_item[minecraft:custom_data={RaidPose:"crossbow"}]
+```
+
+See [Raid zombie — Visual variant](raid-zombie.md#visual-variant-raidvariant) for stem character rules (`a-z`, `0-9`, `_`, `-`).
 
 ## Asset paths
 
@@ -40,9 +54,11 @@ assets/raid-assistant/
   animations/item/<stem>.animation.json
 ```
 
-- Default stem: `raid_item` (bundled in the mod).
-- The **same** stem must be used for the three GeckoLib files (`geo`, `textures`, `animations`) for one look.
-- Invalid or missing `RaidVariant` values fall back to `raid_item`. If geo is missing for a custom stem, the client also falls back to `raid_item`.
+- Default **first-person** stem: `raid_item` (bundled in the mod).
+- Default **third-person** stem: `raid_item_tp` (bundled in the mod).
+- For each stem used in a perspective, ship matching `geo`, `textures`, and `animations` files under that stem name.
+- Invalid or missing `RaidVariant` values fall back to `raid_item`. If geo is missing for a custom **first-person** stem, the client also falls back to `raid_item`.
+- If geo is missing for a custom **third-person** stem, the client falls back to `raid_item_tp` (not the first-person stem).
 
 ### Vanilla item model (`models/item/`)
 
@@ -62,7 +78,45 @@ It contains only:
 
 That tells the game to hand off rendering to GeckoLib instead of drawing a flat 2D item model. This path is tied to the **item id** (`raid_animated_item`), not to `<stem>` or `RaidVariant`.
 
-When you add a new visual variant, you only add the three GeckoLib files under `geo/item/`, `textures/item/`, and `animations/item/` — **not** extra files under `models/item/`. Leave the bundled model file alone unless you are deliberately replacing mod assets.
+When you add a new visual variant, you only add the GeckoLib files under `geo/item/`, `textures/item/`, and `animations/item/` — **not** extra files under `models/item/`. Leave the bundled model file alone unless you are deliberately replacing mod assets.
+
+## First-person vs third-person stems
+
+| Perspective | Stem source | Example |
+| ----------- | ----------- | ------- |
+| **First person** (main hand) | `RaidVariant` | `my_gun` → `geo/item/my_gun.geo.json` |
+| **Third person** (hands in F5 / other players’ view) | `RaidVariantTP` if set, else `{firstPersonStem}_tp` | `my_gun` → `my_gun_tp` |
+| Default first person | `raid_item` | |
+| Default third person | `raid_item_tp` | |
+
+- Animation (`ra_item_anim`) only affects the **first-person** model.
+- Third-person clips are **not** driven by the scoreboard; the TP model stays static.
+- Inventory GUI, ground, and frame displays use the **first-person** stem (same as before).
+- Stem length is capped (64). If `{firstPersonStem}_tp` would be too long, the client uses `raid_item_tp`.
+
+## Hold pose (`RaidPose`)
+
+Optional item `custom_data` key that controls how the **player model's arms** hold the item (third person, other players). Does **not** change first-person GeckoLib geo or `ra_item_anim` playback.
+
+```mcfunction
+/give @s raid-assistant:raid_animated_item[minecraft:custom_data={RaidPose:"crossbow"}]
+```
+
+| `RaidPose` value | Player arm pose |
+| ---------------- | --------------- |
+| `item` (default) | Normal item hold |
+| `crossbow` or `crossbow_hold` | Crossbow hold (two hands) |
+| `crossbow_charge` | Crossbow charging |
+| `bow` | Bow draw |
+| `block` | Shield block |
+| `spyglass` | Spyglass |
+| `horn` | Goat horn |
+| `brush` | Brush |
+| `spear` | Spear / trident throw |
+
+- Missing or invalid values fall back to `item`.
+- Two-handed poses (`crossbow`, `bow`, etc.) position the offhand arm like vanilla crossbow/bow items.
+- Requires the mod on the **client** (rendering only; no scoreboard or server logic).
 
 ## Scoreboard objective
 
@@ -95,14 +149,14 @@ Example:
 scoreboard players set @s ra_item_anim 2
 ```
 
-Clip **order** in the animation JSON matters; clip **names** do not (same rule as [Raid zombie — Order matters, names do not](raid-zombie.md#order-matters-names-do-not)).
+Clip **order** in the animation JSON matters; clip **names** do not (same rule as [Raid zombie — Order matters, names do not](raid-zombie.md#order-matters-names-do-not)). The stem here is the **first-person** stem only.
 
 ## Client mod and visibility
 
 | Topic | Notes |
 | ----- | ----- |
-| **Client mod** | **Required** on players who should see first-person animations. |
+| **Client mod** | **Required** on players who should see first-person animations (and TP models). |
 | **Server mod** | Required so the item exists and scoreboards run; animation playback is client-side only. |
-| **Other players** | Do **not** see your first-person animation. Third-person views of the item stay static. |
+| **Other players** | Do **not** see your first-person animation. They see your **third-person** model (static). |
 | **Main hand** | Animation applies only when the item is in the **main hand** (not offhand). |
 | **Resource reload** | Press **F3+T** after editing `animations/item/` JSON. |

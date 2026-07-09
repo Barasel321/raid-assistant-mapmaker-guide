@@ -6,7 +6,7 @@
 
 | Requirement                   | Notes                                                                                                              |
 | ----------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| **Minecraft Java Edition**    | Version **1.21.3** for this build (see `fabric.mod.json` in the mod jar or repo). An older **1.21.1** build also exists; jars are **not** interchangeable. |
+| **Minecraft Java Edition**    | Version **1.21.1** or **1.21.3**, depending on which Raid Assistant jar you install (see `fabric.mod.json` in the mod jar or repo). Jars are **not** interchangeable. |
 | **Fabric Loader**             | Install via [fabricmc.net](https://fabricmc.net/).                                                                 |
 | **Fabric API**                | Required dependency; place in your `mods` folder with the mod.                                                     |
 | **GeckoLib** (Fabric)         | Required. Use the GeckoLib version that matches your Minecraft version (see [version compatibility](#version-compatibility) below). |
@@ -18,9 +18,9 @@ Single-player “Open to LAN” with cheats, or a server where you have **operat
 
 Use the row that matches your Minecraft version. Mixing versions (for example a 1.21.1 mod jar on 1.21.3) will not work.
 
-| Topic | 1.21.1 (older build) | 1.21.3 (this build) |
-| ----- | -------------------- | ------------------- |
-| **Raid Assistant jar** | Older 1.21.1 release | Current 1.21.3 release |
+| Topic | 1.21.1 build | 1.21.3 build |
+| ----- | ------------ | ------------ |
+| **Raid Assistant jar** | 1.21.1 release | 1.21.3 release |
 | **GeckoLib** | 4.8+ | 4.7.1+ |
 | **Resource pack `pack_format`** | 34 | 42 |
 | **Install checklist** | [1.21.1 checklist](#install-checklist-1211) | [1.21.3 checklist](#install-checklist-1213) |
@@ -43,18 +43,18 @@ If you only use the **default** `raid_zombie` look bundled in the mod, you can s
 
 Your `pack.mcmeta` must use a `pack_format` valid for your Minecraft version. For **1.21.1**, packs commonly use format **34**; for **1.21.3**, use format **42**. If the game rejects the pack, check the official Minecraft wiki “Resource pack” page for the exact number for your minor version.
 
-Minimal `pack.mcmeta` shape (1.21.3 example):
+Minimal `pack.mcmeta` shape (1.21.1 example):
 
 ```json
 {
   "pack": {
-    "pack_format": 42,
+    "pack_format": 34,
     "description": "My raid zombie overrides"
   }
 }
 ```
 
-For **1.21.1**, use `"pack_format": 34` instead.
+For **1.21.3**, use `"pack_format": 42` instead.
 
 ## Resource reload and caching
 

@@ -24,7 +24,10 @@
 | -------------------- | ---------------------------------------------------------------------- |
 | Item id              | `raid-assistant:raid_animated_item`                                    |
 | Variant custom data  | `RaidVariant` (string stem) on `/give`                                 |
-| Default stem         | `raid_item`                                                            |
+| TP variant custom data | `RaidVariantTP` (optional); else `{RaidVariant}_tp`                  |
+| Hold pose custom data | `RaidPose` (optional); default `item` — see [Hold pose](raid-animated-item.md#hold-pose-raidpose) |
+| Default FP stem      | `raid_item`                                                            |
+| Default TP stem      | `raid_item_tp`                                                         |
 | Scoreboard objective | `ra_item_anim` (dummy), holder = **player**                            |
 | Animation scope      | First person, main hand, local player only                             |
 | Item model path      | `assets/raid-assistant/models/item/raid_animated_item.json` (`builtin/entity`; one file for the item id, not per stem) |

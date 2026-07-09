@@ -16,6 +16,8 @@
 | Clicks on item not detected                     | Item must be in main hand and tagged `#raid-assistant:click_detection` (datapack tag). For “used” counts, avoid holding the use key— it increments every tick while held. |
 | Item animation does nothing                     | Player needs the mod on the **client**. Item must be in **main hand**. Objective must be exactly `ra_item_anim` on the **player**. Press **F3+T** after pack edits. See [Raid animated item](raid-animated-item.md). |
 | Item shows default look after `RaidVariant`     | Stem invalid, or **missing geo** for that stem (client falls back to `raid_item`). |
-| Other player sees my item animation             | They should not — animations are local first-person only. If you expected third-person sync, this item does not support it. |
+| Third-person shows default TP look              | Expected if `geo/item/<stem>_tp.geo.json` (or your `RaidVariantTP` stem) is missing — client falls back to `raid_item_tp`, not the first-person stem. See [First-person vs third-person stems](raid-animated-item.md#first-person-vs-third-person-stems). |
+| Other player sees my item animation             | They should not — animations are local first-person only. Other players see the **static** third-person model (`_tp` stem). |
+| `RaidPose` has no effect                        | Player needs the mod on the **client**. Invalid values fall back to `item`. Pose affects player arms only, not first-person geo. See [Hold pose](raid-animated-item.md#hold-pose-raidpose). |
 
 For deep GeckoLib or Blockbench export errors, use GeckoLib’s documentation and logs; this guide only covers how Raid Assistant wires packs and commands.
