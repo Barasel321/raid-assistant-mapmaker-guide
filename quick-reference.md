@@ -25,10 +25,13 @@
 | Item id              | `raid-assistant:raid_animated_item`                                    |
 | Variant custom data  | `RaidVariant` (string stem) on `/give`                                 |
 | TP variant custom data | `RaidVariantTP` (optional); else `{RaidVariant}_tp`                  |
+| GUI variant custom data | `RaidVariantGUI` (optional); else first-person stem; `none` hides in hotbar/inventory/ground/frames |
 | Hold pose custom data | `RaidPose` (optional); default `item` — see [Hold pose](raid-animated-item.md#hold-pose-raidpose) |
 | Default FP stem      | `raid_item`                                                            |
 | Default TP stem      | `raid_item_tp`                                                         |
 | Scoreboard objective | `ra_item_anim` (dummy), holder = **player**                            |
+| Animation speed      | Scoreboard `ra_item_anim_spd` on **player** (hundredths; `100` = 1.0×) |
+| Default anim speed   | `100` (1.0×) if objective missing or player score unset              |
 | Animation scope      | First person, main hand, local player only                             |
 | Item model path      | `assets/raid-assistant/models/item/raid_animated_item.json` (`builtin/entity`; one file for the item id, not per stem) |
 | Geo path             | `assets/raid-assistant/geo/item/<stem>.geo.json`                       |
